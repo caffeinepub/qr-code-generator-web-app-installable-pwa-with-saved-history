@@ -1,0 +1,175 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-qr-code-generation-web-app-where-a-user-can-enter-content-at-minimum-plain-text-and-url-and-generate-a-qr-code-preview-instantly",
+      "featureTitle": "Create a QR code generation web app where a user can enter content (at minimum: plain text and URL) and generate a QR code preview instantly.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/qr/ContentForm.tsx",
+        "frontend/src/components/qr/QRCodePreview.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-qr-code-customization-controls-in-the-ui-at-minimum-size-and-foreground-background-colors-and-update-the-preview-when-settings-change",
+      "featureTitle": "Provide QR code customization controls in the UI (at minimum: size and foreground/background colors) and update the preview when settings change.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/qr/CustomizePanel.tsx",
+        "frontend/src/lib/qr/defaults.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-allow-users-to-download-the-generated-qr-code-locally-at-minimum-as-png",
+      "featureTitle": "Allow users to download the generated QR code locally (at minimum as PNG).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/qr/DownloadButton.tsx",
+        "frontend/src/components/qr/QRCodePreview.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-internet-identity-sign-in-so-users-can-optionally-save-generated-qr-codes-to-their-account-and-view-a-saved-history-list",
+      "featureTitle": "Add Internet Identity sign-in so users can optionally save generated QR codes to their account and view a saved history list.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/hooks/useInternetIdentity.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-saved-history-ui-where-users-can-browse-saved-qr-items-re-open-an-item-to-regenerate-the-preview-with-its-stored-settings-and-delete-items",
+      "featureTitle": "Add a saved-history UI where users can browse saved QR items, re-open an item to regenerate the preview with its stored settings, and delete items.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/history/HistoryItemRow.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-the-site-usable-as-an-app-by-adding-installable-pwa-behavior-app-manifest-service-worker-so-it-can-be-added-to-the-home-screen-on-supported-devices",
+      "featureTitle": "Make the site usable as an “app” by adding installable PWA behavior (app manifest + service worker) so it can be added to the home screen on supported devices.",
+      "files": [
+        "frontend/index.html",
+        "frontend/public/manifest.webmanifest",
+        "frontend/public/service-worker.js",
+        "frontend/src/main.tsx",
+        "frontend/src/pwa/registerServiceWorker.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-define-and-apply-a-coherent-visual-theme-for-the-qr-generator-app-colors-typography-spacing-component-styling-and-use-it-consistently-across-generator-and-history-screens-avoid-blue-purple",
+      "featureTitle": "Define and apply a coherent visual theme for the QR generator app (colors, typography, spacing, component styling) and use it consistently across generator and history screens (avoid blue & purple).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppShell.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-generated-static-brand-assets-logo-app-icons-into-the-frontend-and-use-them-in-the-header-and-pwa-manifest",
+      "featureTitle": "Add generated static brand assets (logo + app icons) into the frontend and use them in the header and PWA manifest.",
+      "files": [
+        "frontend/index.html",
+        "frontend/public/manifest.webmanifest",
+        "frontend/src/components/layout/AppShell.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

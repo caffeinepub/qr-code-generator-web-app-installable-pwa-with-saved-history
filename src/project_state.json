@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build a QR code generation website with a companion app.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal geometric QR-themed logo mark, black/charcoal on light background (qr-logo.dim_512x512.png)\n- App icon with QR motif, rounded-square, high-contrast (qr-app-icon.dim_512x512.png)\n- App icon (maskable) with QR motif, simple bold shapes (qr-app-icon-maskable.dim_512x512.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-qr-code-generation-web-app-where-a-user-can-enter-content-at-minimum-plain-text-and-url-and-generate-a-qr-code-preview-instantly",
+      "title": "Create a QR code generation web app where a user can enter content (at minimum: plain text and URL) and generate a QR code preview instantly.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-qr-code-customization-controls-in-the-ui-at-minimum-size-and-foreground-background-colors-and-update-the-preview-when-settings-change",
+      "title": "Provide QR code customization controls in the UI (at minimum: size and foreground/background colors) and update the preview when settings change.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-allow-users-to-download-the-generated-qr-code-locally-at-minimum-as-png",
+      "title": "Allow users to download the generated QR code locally (at minimum as PNG).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-internet-identity-sign-in-so-users-can-optionally-save-generated-qr-codes-to-their-account-and-view-a-saved-history-list",
+      "title": "Add Internet Identity sign-in so users can optionally save generated QR codes to their account and view a saved history list.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-saved-history-ui-where-users-can-browse-saved-qr-items-re-open-an-item-to-regenerate-the-preview-with-its-stored-settings-and-delete-items",
+      "title": "Add a saved-history UI where users can browse saved QR items, re-open an item to regenerate the preview with its stored settings, and delete items.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-site-usable-as-an-app-by-adding-installable-pwa-behavior-app-manifest-service-worker-so-it-can-be-added-to-the-home-screen-on-supported-devices",
+      "title": "Make the site usable as an “app” by adding installable PWA behavior (app manifest + service worker) so it can be added to the home screen on supported devices.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-define-and-apply-a-coherent-visual-theme-for-the-qr-generator-app-colors-typography-spacing-component-styling-and-use-it-consistently-across-generator-and-history-screens-avoid-blue-purple",
+      "title": "Define and apply a coherent visual theme for the QR generator app (colors, typography, spacing, component styling) and use it consistently across generator and history screens (avoid blue & purple).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-static-brand-assets-logo-app-icons-into-the-frontend-and-use-them-in-the-header-and-pwa-manifest",
+      "title": "Add generated static brand assets (logo + app icons) into the frontend and use them in the header and PWA manifest.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create a QR code generation website with a companion app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Implement backend persistence for saved QR items per authenticated user, including fields for content, type, settings (size/colors), and timestamps.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "QR Code Generator Web App (Installable PWA) with Saved History",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

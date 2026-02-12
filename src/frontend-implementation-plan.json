@@ -1,0 +1,274 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "QR Code Generator PWA with Internet Identity and Saved History (Frontend)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Build a QR generator screen with content input (text/URL) and instant preview rendering with validation.",
+      "acceptanceCriteria": [
+        "User can enter text or a URL and click a clear call-to-action to generate a QR code.",
+        "A QR code preview renders on the page after generation.",
+        "User-facing error message is shown for empty input."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the main app UI that contains the QR generator view, including content type selection (at minimum text/url), input field, Generate CTA, validation messaging, and a live QR preview area."
+        },
+        {
+          "path": "frontend/src/components/qr/QRCodePreview.tsx",
+          "operation": "create",
+          "description": "Add a reusable QR preview component that renders the QR code for the current content/settings and exposes a render surface suitable for PNG export (e.g., canvas)."
+        },
+        {
+          "path": "frontend/src/lib/qr/encode.ts",
+          "operation": "create",
+          "description": "Add a small helper to normalize/encode user input into a QR payload (e.g., raw text vs URL), used by generator + history re-open flow."
+        },
+        {
+          "path": "frontend/src/components/qr/ContentForm.tsx",
+          "operation": "create",
+          "description": "Create the content entry form UI (text/url selection, input, Generate button, empty-state error). Compose existing UI building blocks (e.g., shadcn-ui Button/Input/Card/Alert if available). Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add QR customization controls (size + foreground/background colors) with live preview updates and one-click reset.",
+      "acceptanceCriteria": [
+        "User can change QR size and foreground/background colors.",
+        "Preview updates to reflect the latest settings.",
+        "There is a one-click reset to default settings."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/qr/CustomizePanel.tsx",
+          "operation": "create",
+          "description": "Create customization controls for size and foreground/background colors, including a Reset to defaults control. Compose shadcn-ui inputs (e.g., Slider/Input/Button) where available. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/lib/qr/defaults.ts",
+          "operation": "create",
+          "description": "Define default QR settings (size/colors) and utilities to reset/merge settings consistently across generator and history re-open flows."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire CustomizePanel state into the generator so preview updates immediately when settings change and reset restores defaults."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Enable local download of the currently generated QR as a PNG.",
+      "acceptanceCriteria": [
+        "A Download button exports the currently-previewed QR code as a PNG file.",
+        "Downloaded file is non-empty and scannable (manual verification)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/qr/DownloadButton.tsx",
+          "operation": "create",
+          "description": "Add a Download button that exports the currently rendered QR to a PNG file (client-side), handling disabled state when no QR is available."
+        },
+        {
+          "path": "frontend/src/components/qr/QRCodePreview.tsx",
+          "operation": "modify",
+          "description": "Expose the rendered QR surface (e.g., canvas ref or data URL getter) needed by DownloadButton to export a PNG reliably."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire DownloadButton to the current preview so it exports the latest content/settings."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Add Internet Identity sign-in/out and gated save/history features, including first-time user profile setup.",
+      "acceptanceCriteria": [
+        "User can sign in and sign out with Internet Identity.",
+        "When signed in, user can save a generated QR item and see it appear in their history list.",
+        "When signed out, history is not accessible and the UI prompts to sign in to save."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Implement a login/logout button using the existing Internet Identity hook, and clear cached data on logout (React Query cache). Compose shadcn-ui Button if available. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Create a React Query hook that reads the caller profile from the backend actor (getCallerUserProfile) and provides loading/fetched flags to avoid profile-setup modal flash per the authorization component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "create",
+          "description": "Create a modal/dialog prompting for a display name on first login, saving it via saveCallerUserProfile. Compose shadcn-ui Dialog/Input/Button where available. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useQRCodeHistory.ts",
+          "operation": "create",
+          "description": "Create a React Query hook to fetch the signed-in user's saved QR list via actor.getUserQRCodeHistory, and to refetch after save/delete."
+        },
+        {
+          "path": "frontend/src/hooks/useSaveQRCode.ts",
+          "operation": "create",
+          "description": "Create a mutation hook that saves the current QR item via actor.saveQRCode and invalidates/refetches history on success."
+        },
+        {
+          "path": "frontend/src/components/history/SaveToHistoryButton.tsx",
+          "operation": "create",
+          "description": "Add a Save button shown only when authenticated; when signed out, show a clear prompt to sign in to save. Compose shadcn-ui Button/Alert where available. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add auth-aware UI: show LoginButton in header; gate history screen and saving behind authentication; show ProfileSetupDialog only when authenticated and userProfile is null; handle authorization errors gracefully with user-friendly messages."
+        },
+        {
+          "path": "frontend/src/hooks/useInternetIdentity.ts",
+          "operation": "modify",
+          "description": "Ensure logout/clear flow triggers any necessary UI state resets (in addition to React Query cache clearing done by the LoginButton) so history and profile-dependent UI do not remain visible after sign out."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Create a saved-history UI to browse, re-open saved items into the generator, and delete items with confirmation.",
+      "acceptanceCriteria": [
+        "History view lists saved items with readable labels (e.g., type + truncated content + date).",
+        "Clicking a saved item loads its content/settings back into the generator and updates the preview.",
+        "User can delete an item and it disappears from the list after confirmation."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/history/HistoryList.tsx",
+          "operation": "create",
+          "description": "Implement a history list UI showing readable labels (type + truncated content + formatted date), using data from useQRCodeHistory. Compose shadcn-ui Card/Button/Separator where available. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/history/HistoryItemRow.tsx",
+          "operation": "create",
+          "description": "Create a row component with actions: Re-open and Delete (with confirmation). Compose shadcn-ui AlertDialog/Button where available. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useDeleteQRCode.ts",
+          "operation": "create",
+          "description": "Create a delete mutation that calls the backend delete capability when available and then invalidates/refetches history. If backend typings do not yet include a delete method, call through a safe runtime escape (e.g., actor as unknown as any) and surface a clear error if unsupported."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire history item selection so clicking/re-open loads the saved content + settings back into generator state and refreshes the preview; wire delete action to useDeleteQRCode and update the list after confirmation."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Add installable PWA behavior (manifest + service worker) with basic offline shell support.",
+      "acceptanceCriteria": [
+        "A valid web app manifest is present and references required icons.",
+        "App is installable (meets PWA install criteria in browser tooling).",
+        "Basic offline support exists for the shell UI (generator page loads while offline, excluding backend-dependent history)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/manifest.webmanifest",
+          "operation": "create",
+          "description": "Add a valid web app manifest including name/short_name, start_url, display=standalone, theme/background colors, and icons referencing the generated assets under frontend/public/assets/generated."
+        },
+        {
+          "path": "frontend/public/service-worker.js",
+          "operation": "create",
+          "description": "Add a service worker that caches the app shell/static assets for offline use and uses a network-first strategy for backend-dependent history calls (allowing generator UI to load offline)."
+        },
+        {
+          "path": "frontend/src/pwa/registerServiceWorker.ts",
+          "operation": "create",
+          "description": "Add a small helper to register the service worker on supported browsers and handle update lifecycle events (e.g., optional refresh prompt)."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Register the service worker via registerServiceWorker.ts during app startup."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Wire PWA metadata: link to the manifest, set theme-color, and include icon links that correspond to the generated assets in frontend/public/assets/generated."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Define and apply a cohesive responsive visual theme across generator and history screens, avoiding blue/purple primary branding.",
+      "acceptanceCriteria": [
+        "Generator and history screens share a consistent design language.",
+        "Theme avoids using blue & purple as primary brand colors.",
+        "UI is responsive for mobile and desktop."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Add global styling and theme tokens (e.g., charcoal/black + warm neutral + green accent) and baseline typography/spacing. Avoid blue/purple as primary brand colors."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "create",
+          "description": "Create a responsive layout wrapper (header + main container) used across generator and history sections, ensuring consistent spacing and mobile-friendly stacking. Compose shadcn-ui layout primitives where appropriate. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Adopt AppShell and ensure generator + history sections share consistent component styling, spacing, and responsive behavior (mobile-first layout adjustments)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Add generated static brand assets (logo + icons) to the UI header and PWA manifest without backend delivery.",
+      "acceptanceCriteria": [
+        "Logo is displayed in the app header.",
+        "PWA manifest references the generated icons from frontend/public/assets/generated.",
+        "No image assets are served through the backend canister APIs."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/qr-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated logo asset file at this exact path for static serving (no backend involvement)."
+        },
+        {
+          "path": "frontend/public/assets/generated/qr-app-icon.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated app icon asset file at this exact path for static serving (no backend involvement)."
+        },
+        {
+          "path": "frontend/public/assets/generated/qr-app-icon-maskable.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated maskable app icon asset file at this exact path for static serving (no backend involvement)."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "modify",
+          "description": "Display the logo in the header using the generated asset at frontend/public/assets/generated/qr-logo.dim_512x512.png and ensure it is consistently shown across generator and history screens."
+        },
+        {
+          "path": "frontend/public/manifest.webmanifest",
+          "operation": "modify",
+          "description": "Reference the generated icons at frontend/public/assets/generated/qr-app-icon.dim_512x512.png and frontend/public/assets/generated/qr-app-icon-maskable.dim_512x512.png with appropriate sizes/purpose fields."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Ensure the app uses the generated icons for favicon/app icon links and does not request images via backend canister APIs."
+        }
+      ]
+    }
+  ]
+}

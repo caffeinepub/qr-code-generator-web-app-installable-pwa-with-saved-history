@@ -1,0 +1,196 @@
+{
+  "kind": "build_request",
+  "title": "QR Code Generator Web App (Installable PWA) with Saved History",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a QR code generation web app where a user can enter content (at minimum: plain text and URL) and generate a QR code preview instantly.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can enter text or a URL and click a clear call-to-action to generate a QR code.",
+        "A QR code preview renders on the page after generation.",
+        "User-facing error message is shown for empty input."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Provide QR code customization controls in the UI (at minimum: size and foreground/background colors) and update the preview when settings change.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can change QR size and foreground/background colors.",
+        "Preview updates to reflect the latest settings.",
+        "There is a one-click reset to default settings."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Allow users to download the generated QR code locally (at minimum as PNG).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A Download button exports the currently-previewed QR code as a PNG file.",
+        "Downloaded file is non-empty and scannable (manual verification)."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add Internet Identity sign-in so users can optionally save generated QR codes to their account and view a saved history list.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can sign in and sign out with Internet Identity.",
+        "When signed in, user can save a generated QR item and see it appear in their history list.",
+        "When signed out, history is not accessible and the UI prompts to sign in to save."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement backend persistence for saved QR items per authenticated user, including fields for content, type, settings (size/colors), and timestamps.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes methods to create/list/delete saved QR items scoped to the caller identity.",
+        "Saved items persist across page reloads and subsequent sessions.",
+        "Listing returns items in a consistent order (e.g., newest first)."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Add a saved-history UI where users can browse saved QR items, re-open an item to regenerate the preview with its stored settings, and delete items.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "History view lists saved items with readable labels (e.g., type + truncated content + date).",
+        "Clicking a saved item loads its content/settings back into the generator and updates the preview.",
+        "User can delete an item and it disappears from the list after confirmation."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Make the site usable as an “app” by adding installable PWA behavior (app manifest + service worker) so it can be added to the home screen on supported devices.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A valid web app manifest is present and references required icons.",
+        "App is installable (meets PWA install criteria in browser tooling).",
+        "Basic offline support exists for the shell UI (generator page loads while offline, excluding backend-dependent history)."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Define and apply a coherent visual theme for the QR generator app (colors, typography, spacing, component styling) and use it consistently across generator and history screens (avoid blue & purple).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generator and history screens share a consistent design language.",
+        "Theme avoids using blue & purple as primary brand colors.",
+        "UI is responsive for mobile and desktop."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Add generated static brand assets (logo + app icons) into the frontend and use them in the header and PWA manifest.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want you a build up QR code generation website with app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Logo is displayed in the app header.",
+        "PWA manifest references the generated icons from frontend/public/assets/generated.",
+        "No image assets are served through the backend canister APIs."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (all backend logic in the main actor file).",
+    "Do not modify files under frontend/src/components/ui or other immutable frontend paths; compose them instead.",
+    "Use English for all user-facing text."
+  ],
+  "nonGoals": [
+    "Generating dynamic QR codes that change over time based on server-side redirects.",
+    "Third-party authentication providers other than Internet Identity.",
+    "Real-time sync across multiple devices (beyond normal fetch on refresh)."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal geometric QR-themed logo mark, black/charcoal on light background (qr-logo.dim_512x512.png)",
+      "App icon with QR motif, rounded-square, high-contrast (qr-app-icon.dim_512x512.png)",
+      "App icon (maskable) with QR motif, simple bold shapes (qr-app-icon-maskable.dim_512x512.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

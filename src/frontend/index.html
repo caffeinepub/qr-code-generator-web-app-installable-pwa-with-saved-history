@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <meta name='description' content='Generate, customize, and save QR codes with ease. Create QR codes for URLs, text, emails, and more.' />
+        <meta name='theme-color' content='#000000' />
+        <title>QR Generator - Create & Save QR Codes</title>
+        
+        <!-- PWA Manifest -->
+        <link rel='manifest' href='/manifest.webmanifest' />
+        
+        <!-- Icons -->
+        <link rel='icon' type='image/png' sizes='512x512' href='/assets/generated/qr-app-icon.dim_512x512.png' />
+        <link rel='apple-touch-icon' href='/assets/generated/qr-app-icon.dim_512x512.png' />
+        
+        <!-- QR Code Library from CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    </head>
+    <body>
+        <div id='root'></div>
+        <script type='module' src='/src/main.tsx'></script>
+    </body>
+</html>

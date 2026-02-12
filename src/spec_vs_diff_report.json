@@ -1,0 +1,112 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-12T08:17:36.712Z",
+  "summary": "Core QR generation UI (content entry, customization, preview, PNG download) and Internet Identity-based gating for history are present, but key requirements around PWA installability, brand assets, and full saved-history CRUD/persistence are missing or incomplete. The diff also adds unrequested profile/access-control features and expands QR content types beyond the minimum scope.",
+  "missing_requirements": [
+    {
+      "id": "REQ-5",
+      "requirement": "Backend exposes methods to create/list/delete saved QR items scoped to the caller identity; items persist across reloads/sessions; listing returns items in a consistent order (e.g., newest first).",
+      "reason": "The backend only implements save and list; no delete method is shown. Data structures are non-stable in the shown code, so persistence across canister upgrades is not evidenced. Listing order is whatever List.add/toArray yields; no explicit sorting/newest-first is implemented.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "History UI supports deleting items (with confirmation) and removal from the list.",
+      "reason": "UI shows a confirmation dialog with a Delete action, but there is no onClick handler wired to a delete mutation, and there is no backend delete API in the diff.",
+      "evidence": [
+        "frontend/src/components/history/HistoryItemRow.tsx",
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Installable PWA behavior (web app manifest + service worker) with basic offline support for the shell UI.",
+      "reason": "No manifest or service worker files/registration are shown in the diff summary (only src files were added; no public/manifest/service worker additions are evidenced).",
+      "evidence": [
+        "frontend/src/main.tsx",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Add generated static brand assets (logo + app icons) into the frontend/public/assets/generated and reference them from the header and PWA manifest; no image assets served via backend APIs.",
+      "reason": "Header references a logo path, but the actual generated assets files and any PWA manifest icon references are not shown as added in the diff summary.",
+      "evidence": [
+        "frontend/src/components/layout/AppShell.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "User profile setup (name capture) and profile CRUD endpoints.",
+      "reason": "BuildRequest does not ask for user profiles; it only requires II sign-in to save/view QR history.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "description": "Custom access control initialization via secret parameter and admin token handling.",
+      "reason": "BuildRequest does not request an admin/secret-token-based access control system; only Internet Identity authentication is required.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Support for many QR content types beyond the minimum (text + URL), such as WiFi, vCard contact, geo location, calendar event, SMS, etc.",
+      "reason": "BuildRequest minimum scope is plain text and URL (additional types were not requested).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/qr/ContentForm.tsx",
+        "frontend/src/components/history/HistoryItemRow.tsx"
+      ]
+    },
+    {
+      "description": "Footer marketing links (caffeine.ai attribution, GitHub link) and decorative elements.",
+      "reason": "Not requested by the BuildRequest requirements/AC.",
+      "evidence": [
+        "frontend/src/components/layout/AppShell.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/public/manifest.webmanifest",
+    "frontend/public/service-worker.js",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupDialog.tsx",
+    "frontend/src/components/history/HistoryItemRow.tsx",
+    "frontend/src/components/history/HistoryView.tsx",
+    "frontend/src/components/layout/AppShell.tsx",
+    "frontend/src/components/qr/ContentForm.tsx",
+    "frontend/src/components/qr/CustomizePanel.tsx",
+    "frontend/src/components/qr/DownloadButton.tsx",
+    "frontend/src/components/qr/QRCodePreview.tsx",
+    "frontend/src/components/qr/QRGenerator.tsx",
+    "frontend/src/components/qr/SaveToHistoryButton.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/qr/defaults.ts",
+    "frontend/src/lib/qr/generator.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/pwa/registerServiceWorker.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

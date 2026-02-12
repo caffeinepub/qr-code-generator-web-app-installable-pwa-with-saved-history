@@ -1,0 +1,26 @@
+{
+  "name": "QR Generator - Create & Save QR Codes",
+  "short_name": "QR Generator",
+  "description": "Generate, customize, and save QR codes with ease",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/generated/qr-app-icon.dim_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/generated/qr-app-icon-maskable.dim_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "screenshots": []
+}
